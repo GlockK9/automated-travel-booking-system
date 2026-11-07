@@ -1,0 +1,470 @@
+{
+  "name": "Flight booking processing",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "bookingType"
+            },
+            {
+              "name": "destination"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -64,
+        -320
+      ],
+      "id": "fce4596e-25b6-4928-a363-c2255b0f74f5",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1gzsijfgrr8uH_3GKC6dSaYQo0TRrSwrAmPBeMcTARps",
+          "mode": "list",
+          "cachedResultName": "Flight Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gzsijfgrr8uH_3GKC6dSaYQo0TRrSwrAmPBeMcTARps/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gzsijfgrr8uH_3GKC6dSaYQo0TRrSwrAmPBeMcTARps/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bookingType",
+              "displayName": "bookingType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "destination",
+              "displayName": "destination",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1504,
+        -368
+      ],
+      "id": "1c5d3b08-3eae-4891-b0e6-f45b3d76c505",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "iQVHt4ZFtp0L41QR",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://jsonplaceholder.typicode.com/users/1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "booking",
+              "value": "={{$json.destination}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        368,
+        -464
+      ],
+      "id": "8f008b7b-6b2e-4f1e-afd2-c43132332c3b",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3ceab7c9-c3b2-458c-bbb8-55635c416165",
+              "name": "=name",
+              "value": "={{$json.name}}",
+              "type": "string"
+            },
+            {
+              "id": "4ebc20e4-983a-4f80-8615-75fd3ab66869",
+              "name": "bookingType",
+              "value": "={{$json.bookingType}}",
+              "type": "string"
+            },
+            {
+              "id": "b5f81c7e-92ef-4ac8-b2e2-ca685a2fc817",
+              "name": "destination",
+              "value": "={{$json.destination}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        160,
+        -320
+      ],
+      "id": "a1226f10-9b39-46cd-8bab-b9da8c956e87",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1056,
+        -432
+      ],
+      "id": "c2094d4d-a96b-4bcf-b5fa-a88a45d6833c",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "169d4efc-3157-4248-8070-da55c52075e3",
+              "name": "name",
+              "value": "={{$json.name}}",
+              "type": "string"
+            },
+            {
+              "id": "0e450949-06c3-4128-b595-133257edac45",
+              "name": "bookingType",
+              "value": "={{$json.bookingType}}",
+              "type": "string"
+            },
+            {
+              "id": "1e41a5e6-fae1-4272-aecb-24bff234805d",
+              "name": "destination",
+              "value": "={{$json.destination}}",
+              "type": "string"
+            },
+            {
+              "id": "94abf489-56ce-4b08-b3f0-bc4e2278dc50",
+              "name": "status",
+              "value": "Approved",
+              "type": "string"
+            },
+            {
+              "id": "45a12c60-0fe2-4324-851b-e47ca4b48575",
+              "name": "Time Stamp",
+              "value": "={{$now}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1248,
+        -432
+      ],
+      "id": "ecb249ed-c305-4dde-a364-7ec36b9fdf66",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a140190e-757e-4864-b014-58c15750893c",
+              "leftValue": "={{$json.apiAvailable}}",
+              "rightValue": 1,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        800,
+        -496
+      ],
+      "id": "63bf5ecb-0616-49bb-81e9-2f62a2668045",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aaacee8a-a371-4414-8956-f95a55421203",
+              "name": "status",
+              "value": "Booking requires review",
+              "type": "string"
+            },
+            {
+              "id": "75afd3f0-362c-4ccc-a0ad-348f663dde87",
+              "name": "name",
+              "value": "={{$json.name}}",
+              "type": "string"
+            },
+            {
+              "id": "bb0be438-0c2c-4e60-a6b5-8cca80ea93d6",
+              "name": "bookingType",
+              "value": "={{$json.bookingType}}",
+              "type": "string"
+            },
+            {
+              "id": "82d6f321-b599-4179-9893-267306183570",
+              "name": "destination",
+              "value": "={{$json.destination}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1104,
+        -240
+      ],
+      "id": "82cdc486-af8e-4799-8724-201cd2937f8a",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "sendTo": "chris.dropmail@gmail.com",
+        "subject": "Flight Booking Requires Review",
+        "emailType": "text",
+        "message": "=A flight booking requires review. \n\nName: {{$json.name}} \nBooking Type: {{$json.bookingType}}\nDestination: {{$json.destination}}  \n\nStatus: Booking requires review",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1328,
+        -240
+      ],
+      "id": "242604bf-a83c-4047-8c47-fde811218272",
+      "name": "Send a message",
+      "webhookId": "e351e240-c566-4699-b688-809af8f42008",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZHSNQwoAFzdpzFTG",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const api = $json;\nconst booking = $('Edit Fields').first().json;\n\nconst destination = String(booking.destination || \"\").trim();\nconst normalizedDestination = destination.toLowerCase();\n\nconst supportedDestinations = [\n  \"nigeria\",\n  \"ghana\",\n  \"kenya\"\n];\n\nconst available = supportedDestinations.includes(normalizedDestination);\n\nreturn {\n  json: {\n    name: booking.name,\n    bookingType: booking.bookingType,\n    destination: destination,\n    apiAvailable: available,\n    message: available\n      ? \"Destination is supported\"\n      : \"Destination requires review\"\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        -512
+      ],
+      "id": "d5ad98ce-2e24-4b5e-a84c-06dba359ce93",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "a2a77c94-784c-4f27-a8c0-69b83bc2b027",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9a28dede2f1a3ac6e519efc3120cdbc0110c71019a493eebd98b67d6eacecfea"
+  },
+  "nodeGroups": [],
+  "id": "iMy2Z7ayb9WluIsf",
+  "tags": []
+}

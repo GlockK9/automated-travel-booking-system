@@ -1,0 +1,68 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3e10b600-e5e6-4c15-9236-2505378462b4",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "sendTo": "chris.dropmail@gmail.com",
+        "subject": "🚨 Booking Automation Error",
+        "emailType": "text",
+        "message": "=A booking automation failed.  Workflow: {{$json.workflowData?.name}} Execution ID: {{$json.execution?.id}} Error: {{$json.execution?.error?.message}}  Please check the failed execution in n8n.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "27e0aa10-e17a-4c52-b6fd-aa11187a17f4",
+      "name": "Send a message",
+      "webhookId": "d367d22d-d3fe-4d0d-bffe-6af694b765f8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZHSNQwoAFzdpzFTG",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "bc65404b-57f3-421e-ab70-d5fce51e213d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9a28dede2f1a3ac6e519efc3120cdbc0110c71019a493eebd98b67d6eacecfea"
+  },
+  "nodeGroups": [],
+  "id": "pZTpt5K5Ny7NNulB",
+  "tags": []
+}

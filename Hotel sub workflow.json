@@ -1,0 +1,217 @@
+{
+  "name": "Hotel sub workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "bookingType"
+            },
+            {
+              "name": "destination"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        64
+      ],
+      "id": "d468e127-a01b-4f24-a638-14858fed8088",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1gzsijfgrr8uH_3GKC6dSaYQo0TRrSwrAmPBeMcTARps",
+          "mode": "list",
+          "cachedResultName": "Flight Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gzsijfgrr8uH_3GKC6dSaYQo0TRrSwrAmPBeMcTARps/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gzsijfgrr8uH_3GKC6dSaYQo0TRrSwrAmPBeMcTARps/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "bookingType",
+              "displayName": "bookingType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "destination",
+              "displayName": "destination",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        -32
+      ],
+      "id": "e332ffff-dea2-4af2-a516-d7685e92e2c6",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "iQVHt4ZFtp0L41QR",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "386565f6-5ea5-452f-9423-579b477b0d70",
+              "name": "name",
+              "value": "={{$json.name}}",
+              "type": "string"
+            },
+            {
+              "id": "713c9e43-5d8e-4267-a5e6-b98f54a990db",
+              "name": "bookingType",
+              "value": "={{$json.bookingType}}",
+              "type": "string"
+            },
+            {
+              "id": "fda05187-8172-4da0-b101-322d5f584804",
+              "name": "destination",
+              "value": "={{$json.destination}}",
+              "type": "string"
+            },
+            {
+              "id": "056803f7-18e7-44fd-9ad8-a1a33831607f",
+              "name": "status",
+              "value": "Hotel booking received",
+              "type": "string"
+            },
+            {
+              "id": "7dbc9123-04c6-45ed-a82e-b7d5bce56b56",
+              "name": "Time Stamp",
+              "value": "={{ $now }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        64
+      ],
+      "id": "cd092e36-086f-4be6-a72a-77edf6157245",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "sendTo": "chris.dropmail@gmail.com",
+        "subject": "Hotel Booking Received",
+        "emailType": "text",
+        "message": "=A hotel booking has been received.\n\nName: {{$json.name}}\nBooking Type: {{$json.bookingType}}\nDestination: {{$json.destination}}\n\nStatus: {{$json.status}}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        160
+      ],
+      "id": "d7052970-5f65-488c-80a4-fbce1d3c7fcd",
+      "name": "Send a message",
+      "webhookId": "83a2479c-5dfb-433b-ba2d-7d3315ee4c16",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZHSNQwoAFzdpzFTG",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "f5deacdd-0174-4338-8cd8-b396a6acb12b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9a28dede2f1a3ac6e519efc3120cdbc0110c71019a493eebd98b67d6eacecfea"
+  },
+  "nodeGroups": [],
+  "id": "2LhI2FhkaqwMXjR7",
+  "tags": []
+}

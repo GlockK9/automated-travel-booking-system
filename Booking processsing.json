@@ -1,0 +1,482 @@
+{
+  "name": "Booking processsing",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "api-gateway",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -144,
+        128
+      ],
+      "id": "6592600e-cb85-43b4-9f02-c5621b7a3837",
+      "name": "Webhook",
+      "webhookId": "f5f833a5-0329-4a36-a1e6-93d0cec9ae3c"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.bookingType }}",
+                    "rightValue": "flight",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "60fd1f0f-da23-43cb-9be4-8a316cf9e9c5"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "d00e9a99-f5cd-42af-93dd-c3d977c08b1e",
+                    "leftValue": "={{ $json.body.bookingType }}",
+                    "rightValue": "hotel",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        304,
+        -64
+      ],
+      "id": "73ef5a93-fa44-4bc8-ab61-019716e5359d",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "iMy2Z7ayb9WluIsf",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/iMy2Z7ayb9WluIsf",
+          "cachedResultName": "Flight booking processing"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "name": "={{ $json.body.name }}",
+            "bookingType": "={{ $json.body.bookingType }}",
+            "destination": "={{ $json.body.destination }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "bookingType",
+              "displayName": "bookingType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "destination",
+              "displayName": "destination",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        528,
+        -160
+      ],
+      "id": "3956ef90-c36c-4fd2-86b3-4103ebc0e040",
+      "name": "Call 'Flight booking processing'"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "2LhI2FhkaqwMXjR7",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/2LhI2FhkaqwMXjR7",
+          "cachedResultName": "Hotel sub workflow"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "destination": "={{$json.body.destination}}",
+            "bookingType": "={{$json.body.bookingType}}",
+            "name": "={{$json.body.name}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "bookingType",
+              "displayName": "bookingType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "destination",
+              "displayName": "destination",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        528,
+        32
+      ],
+      "id": "dae4c07f-3f7f-48d2-9049-a2c841b1b7c7",
+      "name": "Call 'Hotel processing'"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e317f0db-e011-4155-9824-32bf6813a14f",
+              "leftValue": "={{$json.body.destination}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        80,
+        128
+      ],
+      "id": "cbab3cd9-da53-4324-8788-bbd95a6686b3",
+      "name": "Validate booking"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9660e44c-a997-4f72-a52d-c026c0e8a3a6",
+              "name": "name",
+              "value": "={{$json.body.name}}",
+              "type": "string"
+            },
+            {
+              "id": "4c36c830-1992-435f-822c-f95ef2f4c810",
+              "name": "bookingType",
+              "value": "={{$json.body.bookingType}}",
+              "type": "string"
+            },
+            {
+              "id": "e51c4b6c-b972-4fc8-abc5-f4eb0aad79a4",
+              "name": "destination",
+              "value": "={{$json.body.destination}}",
+              "type": "string"
+            },
+            {
+              "id": "aa06b9ba-cc73-4829-b8b1-2287cbb24d85",
+              "name": "status",
+              "value": "=Invalid booking — missing destination",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        304,
+        320
+      ],
+      "id": "9982450e-2365-4993-a5aa-c792830982a6",
+      "name": "Prepare Inavlid booking request"
+    },
+    {
+      "parameters": {
+        "sendTo": "chris.dropmail@gmail.com",
+        "subject": "Invalid Booking Requires Review",
+        "emailType": "text",
+        "message": "=An invalid booking was received. \n\nName: {{$json.name}}\nBooking Type: {{$json.bookingType}}\nDestination: {{$json.destination}} \n\nStatus: Invalid booking — missing destination",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        528,
+        224
+      ],
+      "id": "8a62eccf-6483-4a77-a89a-d709253709ab",
+      "name": "Notify inavlid booking",
+      "webhookId": "453bd4c5-7d0b-4ddb-b005-d80881b5660d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZHSNQwoAFzdpzFTG",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1gzsijfgrr8uH_3GKC6dSaYQo0TRrSwrAmPBeMcTARps",
+          "mode": "list",
+          "cachedResultName": "Booking Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gzsijfgrr8uH_3GKC6dSaYQo0TRrSwrAmPBeMcTARps/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gzsijfgrr8uH_3GKC6dSaYQo0TRrSwrAmPBeMcTARps/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "status"
+          ],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bookingType",
+              "displayName": "bookingType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "destination",
+              "displayName": "destination",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        416
+      ],
+      "id": "334e5208-e9a0-4af8-b440-3971ffb41db3",
+      "name": "Log Invalid booking",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "iQVHt4ZFtp0L41QR",
+          "name": "Google Sheets account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validate booking",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Call 'Flight booking processing'",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Call 'Hotel processing'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate booking": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare Inavlid booking request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Inavlid booking request": {
+      "main": [
+        [
+          {
+            "node": "Notify inavlid booking",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Log Invalid booking",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify inavlid booking": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "pZTpt5K5Ny7NNulB",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "0dccfd7d-c8cb-49bf-8d22-f25b072c1df4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9a28dede2f1a3ac6e519efc3120cdbc0110c71019a493eebd98b67d6eacecfea"
+  },
+  "nodeGroups": [],
+  "id": "r65gezNCPatDVK59",
+  "tags": []
+}
