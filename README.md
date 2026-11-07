@@ -1,3 +1,4 @@
+<img width="1758" height="771" alt="Flight booking processing" src="https://github.com/user-attachments/assets/3ddab936-148c-44b4-a8fc-57943ed98850" />
 # Automated Travel Booking Processing System
 
 An n8n-based workflow automation system designed to process travel booking requests, validate submitted information, check flight and hotel availability, and manage booking notifications.
@@ -58,3 +59,4 @@ The system follows this general process:
 ## Project Purpose
 
 Built as a practical demonstration of workflow automation, API integration, webhook processing, and modular system design.
+<img width="1758" height="771" alt="Flight booking processing" src="https://github.com/user-attachments/assets/484107ff-52f7-4420-aec0-be460f64abfc" />
