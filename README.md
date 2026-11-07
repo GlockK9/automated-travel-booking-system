@@ -59,4 +59,6 @@ The system follows this general process:
 ## Project Purpose
 
 Built as a practical demonstration of workflow automation, API integration, webhook processing, and modular system design.
-<img width="1758" height="771" alt="Flight booking processing" src="https://github.com/user-attachments/assets/484107ff-52f7-4420-aec0-be460f64abfc" />
+<img width="1652" height="818" alt="Booking processing" src="https://github.com/user-attachments/assets/740eec47-b8a1-4f60-8d21-dd1618b82989" />
+<img width="1153" height="371" alt="Booking Sheet" src="https://github.com/user-attachments/assets/3ed1c687-74f3-4f2f-9948-e8dc17cf11db" />
+
