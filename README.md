@@ -193,7 +193,7 @@ The supplied exports show the main booking workflow and the flight and hotel sub
 | `Booking processsing.json` | Main booking gateway |
 | `Flight booking processing.json` | Flight request processing |
 | `Hotel sub workflow.json` | Hotel request processing |
-| `My workflow.json` | Central error handler |
+| `Error handler for processing.json` | Central error handler |
 
 ## Current Scope and Limitations
 
